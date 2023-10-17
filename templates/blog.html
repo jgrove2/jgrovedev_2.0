@@ -1,0 +1,41 @@
+<!-- Blog page -->
+{{define "post"}}
+{{template "header" .}}
+<!-- Post header -->
+
+<!-- Post content -->
+<div class="container mt-4 mb-4">
+	<div class="text-start fs-6 fw-bolder">
+		{{.Post.Type}}
+	</div>
+	<div class="text-center">
+		<h1 class="fs-1">
+			{{.Post.Title}}
+		</h1>
+	</div>
+	<div class="text-center">
+		{{ range .Post.Skills }}
+		<span class="badge bg-dark">{{ . }}</span>
+		{{end}}
+	</div>
+	<div class="text-center p-2">
+		<small>
+			<span class="fw-bold">
+				{{.Creator.Name}}
+			</span>
+			<span>
+				<a class="link-dark" target="_blank"
+					href="https://www.github.com/{{.Creator.GitHub}}">@{{.Creator.GitHub}}</a>
+			</span>
+			<span>
+				{{.Post.Date}}
+			</span>
+		</small>
+	</div>
+</div>
+<div class="container">
+	{{ .Article }}
+</div>
+</div>
+{{template "footer"}}
+{{end}}
