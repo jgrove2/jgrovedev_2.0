@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/jgrove2/jgrovedev_2.0/article"
+	"github.com/jgrove2/jgrovedev_2.0/src/article"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {

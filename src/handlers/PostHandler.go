@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/jgrove2/jgrovedev_2.0/article"
+	"github.com/jgrove2/jgrovedev_2.0/src/article"
 
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"

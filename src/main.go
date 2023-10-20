@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/jgrove2/jgrovedev_2.0/database"
-	"github.com/jgrove2/jgrovedev_2.0/handlers"
+	"github.com/jgrove2/jgrovedev_2.0/src/database"
+	"github.com/jgrove2/jgrovedev_2.0/src/handlers"
 )
 
 var tmpl *template.Template
@@ -15,6 +15,8 @@ var tmpl *template.Template
 func init() {
 	tmpl = handlers.HandleTemplates()
 }
+
+
 
 func main() {
 	err := database.OpenDatabase()

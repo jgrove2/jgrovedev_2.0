@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/jgrove2/jgrovedev_2.0/database"
+	"github.com/jgrove2/jgrovedev_2.0/src/database"
 	"github.com/lib/pq"
 )
 
@@ -29,7 +29,7 @@ type Creator struct {
 
 func GetAll() []Article {
 	var articles []Article
-	rows, err := database.DB.Query(`SELECT id, created_at, type, title, skills, description FROM "Articles";`)
+	rows, err := database.DB.Query(`SELECT id, created_at, type, title, skills, description FROM prod.posts`)
 	if err != nil {
 		log.Println(err)
 		return nil
@@ -48,7 +48,7 @@ func GetAll() []Article {
 
 func GetPost(id string) Article {
 	var article Article
-	var query = `SELECT id, created_at, type, title, skills, article, creator FROM "Articles" WHERE id=` + id
+	var query = `SELECT id, created_at, type, title, skills, article, creator FROM prod.posts WHERE id=` + id
 	rows, err := database.DB.Query(query)
 	if err != nil {
 		log.Println(err)
@@ -68,7 +68,7 @@ func GetPost(id string) Article {
 
 func GetCreatorDetails(id int) Creator {
 	var creator Creator
-	var query = fmt.Sprintf(`SELECT id, full_name, github, email, linkedin FROM "Creators" WHERE id=%d`, id)
+	var query = fmt.Sprintf(`SELECT id, full_name, github, email, linkedin FROM prod.creators WHERE id=%d`, id)
 	rows, err := database.DB.Query(query)
 	if err != nil {
 		return creator
