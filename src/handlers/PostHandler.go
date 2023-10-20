@@ -6,6 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jgrove2/jgrovedev_2.0/src/article"
+	"github.com/jgrove2/jgrovedev_2.0/src/util"
 
 	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/html"
@@ -22,6 +23,7 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	PostData := article.GetPost(vars["id"])
 	CreatorData := article.GetCreatorDetails(PostData.Creator)
+	PostData.Date = util.FormatTime(PostData.Date)
 	articleTemplate := template.HTML(string(mdToHTML([]byte(PostData.Article))))
 	PostContent := Post{Post: PostData, Article: articleTemplate, Creator: CreatorData}
 	tmpl := HandleTemplates()
