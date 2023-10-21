@@ -1,6 +1,7 @@
 package article
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -27,59 +28,61 @@ type Creator struct {
 	LinkedIn string `json:"linkedin"`
 }
 
-func GetAll() []Article {
+func GetAll() ([]Article, error) {
 	var articles []Article
 	rows, err := database.DB.Query(`SELECT id, created_at, type, title, skills, description FROM prod.posts`)
 	if err != nil {
-		log.Println(err)
-		return nil
+		return articles, errors.New("503")
 	}
 
 	for rows.Next() {
 		var article Article
 		if err := rows.Scan(&article.ID, &article.Date, &article.Type, &article.Title, pq.Array(&article.Skills), &article.Description); err != nil {
-			return nil
+			return articles, errors.New("404")
 		}
 		articles = append(articles, article)
 	}
 
-	return articles
+	return articles, nil
 }
 
-func GetPost(id string) Article {
+func GetPost(id string) (Article, error) {
 	var article Article
 	var query = `SELECT id, created_at, type, title, skills, article, creator FROM prod.posts WHERE id=` + id
 	rows, err := database.DB.Query(query)
 	if err != nil {
-		log.Println(err)
-		return article
+		log.Println("Error getting response from db: &v", err)
+		return article, errors.New("503")
 	}
 	for rows.Next() {
 		var temp Article
 		if err := rows.Scan(&temp.ID, &temp.Date, &temp.Type, &temp.Title, pq.Array(&temp.Skills), &temp.Article, &temp.Creator); err != nil {
-			log.Println(err)
-			return article
+			log.Printf("Error scanning query: %v", err)
+			return article, errors.New("404")
+		}
+		if temp.ID == 0 {
+			return article, errors.New("404")
 		}
 		article = temp
 	}
 
-	return article
+	return article, nil
 }
 
-func GetCreatorDetails(id int) Creator {
+func GetCreatorDetails(id int) (Creator, error) {
 	var creator Creator
 	var query = fmt.Sprintf(`SELECT id, full_name, github, email, linkedin FROM prod.creators WHERE id=%d`, id)
 	rows, err := database.DB.Query(query)
 	if err != nil {
-		return creator
+		return creator, errors.New("503")
 	}
 	for rows.Next() {
 		var temp Creator
 		if err := rows.Scan(&temp.ID, &temp.Name, &temp.GitHub, &temp.Email, &temp.LinkedIn); err != nil {
-			return creator
+			return creator, errors.New("404")
 		}
 		creator = temp
 	}
 
-	return creator
+	return creator, nil
 }

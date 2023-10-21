@@ -3,6 +3,7 @@ package handlers
 import (
 	"html/template"
 	"net/http"
+	"reflect"
 
 	"github.com/gorilla/mux"
 	"github.com/jgrove2/jgrovedev_2.0/src/article"
@@ -21,9 +22,21 @@ type Post struct {
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	PostData := article.GetPost(vars["id"])
-	CreatorData := article.GetCreatorDetails(PostData.Creator)
-	PostData.Date = util.FormatTime(PostData.Date)
+	PostData, err := article.GetPost(vars["id"])
+	if err != nil || reflect.DeepEqual(PostData, article.Article{}) {
+		NotFoundHandler(w, r)
+		return
+	}
+	CreatorData, err := article.GetCreatorDetails(PostData.Creator)
+	if err != nil {
+		NotFoundHandler(w, r)
+		return
+	}
+	PostData.Date, err = util.FormatTime(PostData.Date)
+	if err != nil {
+		NotFoundHandler(w, r)
+		return
+	}
 	articleTemplate := template.HTML(string(mdToHTML([]byte(PostData.Article))))
 	PostContent := Post{Post: PostData, Article: articleTemplate, Creator: CreatorData}
 	tmpl := HandleTemplates()
