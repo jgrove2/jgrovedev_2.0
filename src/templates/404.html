@@ -1,0 +1,20 @@
+{{ define "404" }}
+{{ template "header" }}
+<div class="container pt-4">
+	<div class="row text-center">
+		<h1 class="display-1">
+			404
+		</h1>
+	</div>
+	<div class="row text-center">
+		<h4>Nothing has been found at this address.</h4>
+		<p>Click the button below to return to the home page.</p>
+	</div>
+	<div class="row flex justify-content-center">
+		<a href="/" class="align-self-center w-25">
+			<button type="button" class="btn btn-dark w-100">Home</button>
+		</a>
+	</div>
+</div>
+{{template "footer"}}
+{{end}}

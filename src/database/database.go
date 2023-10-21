@@ -16,9 +16,7 @@ func OpenDatabase() error {
 	username := util.GoDotEnvVariable("USER_NAME")
 	password := util.GoDotEnvVariable("PASSWORD")
 	dsn := fmt.Sprintf("postgresql://%s:%s@jgrove-dev-5905.g8z.cockroachlabs.cloud:26257/jgrove?sslmode=verify-full", username, password)
-	log.Println(dsn)
 	DB, err = sql.Open("postgres", dsn)
-	log.Println(err)
 	if err != nil {
 		log.Fatal("Failed to connect to database", err)
 	}
