@@ -1,4 +1,3 @@
-# jgrovedev_2.0
 # 2.0 Version of Personal Site
 ## Source Code
 ### GitHub:
@@ -7,6 +6,23 @@ Source code stored on GitHub: [Here](https://github.com/jgrove2/jgrovedev_2.0/tr
 Why Go? Well it came down to this I spend the better part of my week writing code in React for work. I wanted to try something new something that was not the typical Javascript heavy website design. Following in the footsteps of a few youtubers that I follow I ended up choosing to write my website solely using go templating as it would give me a good challenge.
 ## Styling?
 I chose bootstrap 5 to do my tempting because I didn't want to have to worry about styling everything. I saw that bootstrap gave me a good way to quickly and easily implement styling into the go templates.  The main focus of this project was go learn how to write a website using templating and not to learn how to style everything in css so I didn't want to have to spend most of my time learning new css tecnhiques. 
+## Posts
+For the posts I store all of the text as markdown in a postgres table. This data is parsed using the go package [gomarkdown](https://github.com/gomarkdown/markdown). This parses all of the markdown into html so that it can be displayed properly in the dom. This also leverages the go templating engine as the code is parsed into a go template and then inserted onto the screen that way.
+```go
+func MdToHTML(md []byte) []byte {
+	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
+	p := parser.NewWithExtensions(extensions)
+	doc := p.Parse(md)
+
+	// create HTML renderer with extensions
+	htmlFlags := html.CommonFlags | html.HrefTargetBlank
+	opts := html.RendererOptions{Flags: htmlFlags}
+	renderer := html.NewRenderer(opts)
+
+	return markdown.Render(doc, renderer)
+}
+```
+The above code takes in a byte string of markdown and converts it into html.
 ## Hosting
 I decided to host the website on a digital ocean droplet. This cost me $5 a month to host and gives me the ability to automatically deploy updates anytime the main branch is updated in GitHub. The process of uploading to the droplet was really easy and doesn't require me to do any crazy configuration of docker containers or firewalls to get it up and running.
 ## Storage of Data
@@ -17,4 +33,6 @@ I wanted to use this time to work on my SQL knowledge base so I chose PostgresSQ
 ![database schema](https://s3.amazonaws.com/jgrovedev2.0bucket/1/dbrelationship.png)
 ## Conclusion
 In the end of the day I am really only here to learn. All of the stuff I said above about my website are all subject to change. I have lots of ideas and very little experience so I am going to keep trying to learn and improve. If you read this far thanks for reading my first post on this website, I hope there will be many more to come stay tuned. 
-> With sufficient thrust, pigs fly just fine. However, this is not necessarily a good idea. It is hard to be sure where they are going to land, and it could be dangerous sitting under them as they fly overhead.
+#### Quote
+With sufficient thrust, pigs fly just fine. However, this is not necessarily a good idea. It is hard to be sure where they are going to land, and it could be dangerous sitting under them as they fly overhead.
+- R. Callon [Link] (https://www.janko.at/Humor/RFC/rfc1925.htm#:~:text=(3)%20With%20sufficient%20thrust%2C,nor%20understood%20unless%20experienced%20firsthand)
