@@ -33,6 +33,9 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", handlers.HomeHandler)
 	r.HandleFunc("/post/{id:[0-9]+}", handlers.PostHandler)
+	// Markdown Rendering Project
+	r.HandleFunc("/markdown", handlers.MDToHTMLHandler)
+	r.HandleFunc("/markdown/render/", handlers.MDRenderHandler)
 	r.NotFoundHandler = http.HandlerFunc(handlers.NotFoundHandler)
 	log.Fatal(http.ListenAndServe(addr, r))
 }

@@ -1,0 +1,37 @@
+<!-- MD to HTML page -->
+{{define "markdowntohtml"}}
+{{template "header" .Post}}
+<!-- Post header -->
+
+<!-- Larger content -->
+<div class="container pt-4">
+	<div class="bg-secondary p-2 rounded-2 text-white">
+		<h3><u>Links to help with rendering markdown as html</u></h3>
+		<h4>Link to the repo used: <a class="link-light" href="https://github.com/gomarkdown/markdown">Link</a></h4>
+		<h4>Link to a tutorial on how to use it: <a class="link-light"
+				href="https://blog.kowalczyk.info/article/cxn3/advanced-markdown-processing-in-go.html">Link</a></h4>
+	</div>
+	<div class="row pt-4">
+		<!-- Form Input -->
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<h3>Markdown:</h3>
+			<form class="" hx-post="/markdown/render/" hx-target="#html-target" hx-indicator="#spinner">
+				<div class="form-group">
+					<textarea class="form-control" rows="20" name="markdown" id="markdown"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">
+					<span class="spinner-border spinner-border-sm htmx-indicator" id="spinner" role="status"
+						aria-hidden="true"></span>
+					Render
+				</button>
+			</form>
+		</div>
+		<!-- HTML -->
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+			<h3>HTML:</h3>
+			<div class="border border-3 rounded-2 h-100" id="html-target"></div>
+		</div>
+	</div>
+</div>
+{{template "footer"}}
+{{end}}
