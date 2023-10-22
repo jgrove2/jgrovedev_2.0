@@ -59,7 +59,11 @@
       <div class="card">
         <h5 class="card-header">{{ .Type }}</h5>
         <div class="card-body">
-          <h5 class="card-title">{{ .Title }}</h5>
+          <h5 class="card-title"><a
+              class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+              href="/post/{{ .ID }}">{{ .Title
+              }}</a>
+          </h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ .Date }}</h6>
           {{ range .Skills }}
           <span class="badge bg-dark">{{ . }}</span>
